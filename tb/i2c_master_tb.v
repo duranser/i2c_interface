@@ -4,7 +4,7 @@
 
 module i2c_master_tb();
 
-	// System inputs
+	// System Signals
 	reg  clk              = 0;		
 	reg  rst              = 0;
 	reg  write            = 0;	
@@ -15,7 +15,7 @@ module i2c_master_tb();
 	wire [7:0] data_rd;
 	wire done;
 	wire ack_error;
-	// I2C signals
+	// I2C Signals
 	wire SDA;
 	wire SCL;
     
