@@ -60,10 +60,10 @@ module i2c_master #(
 		else
 		begin
 			case(speed_mode)
-				00: clk_div <= SYS_CLK/DATA_RATE0;
-				01: clk_div <= SYS_CLK/DATA_RATE1;				
-				10: clk_div <= SYS_CLK/DATA_RATE2;	
-				11: clk_div <= SYS_CLK/DATA_RATE3;		
+				2'b00: clk_div <= (SYS_CLK/DATA_RATE0)/2;
+				2'b01: clk_div <= (SYS_CLK/DATA_RATE1)/2;				
+				2'b10: clk_div <= (SYS_CLK/DATA_RATE2)/2;	
+				2'b11: clk_div <= (SYS_CLK/DATA_RATE3)/2;		
 			endcase
 			
 			if( clk_cnt == clk_div)

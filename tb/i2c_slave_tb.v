@@ -53,56 +53,56 @@ module i2c_slave_tb();
         SDA_en  = 1'b1;
 		SDA_reg = 1'b1;
 		// START:
-        @(posedge I2C.SCL);
+        @(posedge SCL);
 		SDA_reg = 1'b0;
 		// ADDRESS:
-            @(posedge I2C.SCL);
+            @(posedge SCL);
 			SDA_reg = address[6];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = address[5];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = address[4];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = address[3];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = address[2];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = address[1];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = address[0];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = 1'b0;     // write
 		// ACK:
-        @(posedge I2C.SCL);
+        @(posedge SCL);
         SDA_en  = 1'b0;
         // DATA:
-		    @(posedge I2C.SCL);
+		    @(posedge SCL);
 			SDA_en  = 1'b1;
 			SDA_reg = data_write[7];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = data_write[6];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = data_write[5];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = data_write[4];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = data_write[3];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = data_write[2];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = data_write[1];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = data_write[0];
 	    // ACK:
-		@(posedge I2C.SCL);
+		@(posedge SCL);
         SDA_en  = 1'b0;
         // STOP:
-		@(posedge I2C.SCL);
+		@(posedge SCL);
 		SDA_en  = 1'b1;
 		SDA_reg = 1'b0;
-		@(posedge I2C.SCL);
+		@(posedge SCL);
 		SDA_reg = 1'b1;
-		@(posedge I2C.SCL);
+		@(posedge SCL);
     end
 	endtask
 
@@ -113,41 +113,41 @@ module i2c_slave_tb();
         SDA_en  = 1'b1;
 		SDA_reg = 1'b1;
 		// START:
-        @(posedge I2C.SCL);
+        @(posedge SCL);
 		SDA_reg = 1'b0;
 		// ADDRESS:
-            @(posedge I2C.SCL);
+            @(posedge SCL);
 			SDA_reg = address[6];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = address[5];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = address[4];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = address[3];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = address[2];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = address[1];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = address[0];
-			@(posedge I2C.SCL);
+			@(posedge SCL);
 			SDA_reg = 1'b1;      // read
 		// ACK:
-        @(posedge I2C.SCL);
+        @(posedge SCL);
         SDA_en  = 1'b0;
         // DATA:
-            wait (I2C.state == 3'b110) @(posedge I2C.SCL);
+            repeat(8) @(posedge SCL);
         // NACK:
         SDA_en  = 1'b1;
 		SDA_reg = 1'b1;
 		// STOP:
-		@(posedge I2C.SCL);
+		@(posedge SCL);
         SDA_en  = 1'b1;
 		SDA_reg = 1'b0;
-		@(posedge I2C.SCL);
+		@(posedge SCL);
         SDA_en  = 1'b1;
 		SDA_reg = 1'b1;
-		@(posedge I2C.SCL);
+		@(posedge SCL);
     end
 	endtask
 endmodule

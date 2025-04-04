@@ -3,7 +3,7 @@
 
 
 module i2c_master_tb();
-
+	
 	// System Signals
 	reg  clk              = 0;		
 	reg  rst              = 0;
@@ -19,8 +19,11 @@ module i2c_master_tb();
 	wire SDA;
 	wire SCL;
     
+	// Clock
 	always #5 clk <= ~clk;
 
+	
+	// DUT
 	i2c_master I2C(
 		.clk(clk),
 		.rst(rst),
@@ -44,11 +47,11 @@ module i2c_master_tb();
 
 	initial
 	begin
-       repeat(20) @(posedge clk);
+       repeat(200) @(posedge clk);
        rst = 1;
-       repeat(5) @(posedge clk);
+       repeat(100) @(posedge clk);
        rst = 0;
-       repeat(20) @(posedge clk);	
+       repeat(200) @(posedge clk);	
        
        write_proc( 7'b0001111, 8'b10101011);
        write_proc( 7'b0001111, 8'b10101011);
@@ -65,16 +68,18 @@ module i2c_master_tb();
         write   = 1;
         read    = 0;
         SDA_en  = 1'b0;
-        wait (I2C.state == 3'b011) @(posedge I2C.i2c_clk);
+        repeat(3) @(posedge SCL);
+        repeat(8) @(posedge SCL);
         SDA_en  = 1'b1;
         SDA_reg = 1'b0;
-        @(posedge I2C.i2c_clk);
+        @(posedge SCL);
         SDA_en  = 1'b0;
-        wait (I2C.state == 3'b110) @(posedge I2C.i2c_clk);
+        repeat(8) @(posedge SCL);
         SDA_en  = 1'b1;
         SDA_reg = 1'b0;
-        wait (I2C.state == 3'b111) @(posedge I2C.i2c_clk);
+        @(posedge SCL);
         SDA_en  = 1'b0;
+        @(posedge SCL);
     end
 	endtask
 
@@ -84,30 +89,32 @@ module i2c_master_tb();
         write   = 0;
         read    = 1;
         SDA_en  = 1'b0;
-        wait (I2C.state == 3'b011) @(posedge I2C.i2c_clk);
+        repeat(3) @(posedge SCL);
+        repeat(8) @(posedge SCL);
         SDA_en  = 1'b1;
         SDA_reg = 1'b0;
         read    = 0;
-        @(posedge I2C.i2c_clk);
+        @(posedge SCL);
             SDA_en  = 1'b1;
             SDA_reg = data_read[7];
-            @(posedge I2C.i2c_clk);
+            @(posedge SCL);
             SDA_reg = data_read[6];
-            @(posedge I2C.i2c_clk);
+            @(posedge SCL);
             SDA_reg = data_read[5];
-            @(posedge I2C.i2c_clk);
+            @(posedge SCL);
             SDA_reg = data_read[4];
-            @(posedge I2C.i2c_clk);
+            @(posedge SCL);
             SDA_reg = data_read[3];       
-            @(posedge I2C.i2c_clk);
+            @(posedge SCL);
             SDA_reg = data_read[2];
-            @(posedge I2C.i2c_clk);
+            @(posedge SCL);
             SDA_reg = data_read[1];
-            @(posedge I2C.i2c_clk);
+            @(posedge SCL);
             SDA_reg = data_read[0];           
-        @(posedge I2C.i2c_clk);
+        @(posedge SCL);
         SDA_en  = 1'b0;
-        wait (I2C.state == 3'b111) @(posedge I2C.i2c_clk);
+        @(posedge SCL);
+        @(posedge SCL);
     end
 	endtask
 endmodule
